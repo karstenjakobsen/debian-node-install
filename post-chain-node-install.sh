@@ -8,7 +8,7 @@ SSHKEYS[jb]="ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAgEAhDyHV7vzvS7/MfqsoanrEkZc84mxnHi
 echo "Installing default Debain set..."
 
 apt-get update
-apt-get -y install sudo linux-headers-$(uname -r) mc joe dos2unix g++ gcc make tcpdump ngrep elinks git curl openssl ntp
+apt-get -y install linux-headers-$(uname -r) mc joe dos2unix g++ gcc make tcpdump ngrep elinks git curl openssl ntp
 
 echo "Packages installed"
 
