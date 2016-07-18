@@ -8,16 +8,21 @@ SSHKEYS[jb]="ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAgEAhDyHV7vzvS7/MfqsoanrEkZc84mxnHi
 echo "Installing default Debain set..."
 
 apt-get update
-apt-get -y install linux-headers-$(uname -r) mc joe dos2unix g++ gcc make tcpdump ngrep elinks git curl openssl ntp
+apt-get -y install tee sudo linux-headers-$(uname -r) mc joe dos2unix g++ gcc make tcpdump ngrep elinks git curl openssl ntp
 
 echo "Packages installed"
+
+echo -n "Adding wheel group and permissions..."
+
+addgroup wheel
+bash -c 'echo "%wheel ALL = (ALL) NOPASSWD: ALL" | (EDITOR="tee -a" visudo)'
 
 echo -n "Adding users..."
 
 for user in $USERLIST;
 do
         echo -n "$user..."
-        useradd -G sudo -s /bin/bash -m $user
+        useradd -G wheel -s /bin/bash -m $user
         mkdir /home/$user/.ssh
         echo ${SSHKEYS[$user]} > /home/$user/.ssh/authorized_keys
         chown $user:$user /home/$user/.ssh
