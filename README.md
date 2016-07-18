@@ -1,2 +1,2 @@
-# chain-node-maintenance
-Script for blockchain node maintenance
+# post-chain-node-install
+Script for blockchain node post installation
