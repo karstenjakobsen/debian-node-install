@@ -43,7 +43,7 @@ echo "Restarting SSHd..."
 read -p "Do you want to insall Lisk? <y/N> " prompt
 if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
 then
-        bash lisk-test-install.sh
+        bash lisk-install.sh
 fi
 
 echo "All done, have fun..."
