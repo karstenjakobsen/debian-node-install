@@ -106,7 +106,7 @@ then
                 killall node
                 dropdb -U lisk lisk_test
                 createdb -U lisk lisk_test
-                sudo -u lisk bash lisk.sh restart && tail -f /home/lisk/lisk-test/app.log
+                sudo -u lisk bash lisk.sh restart
         fi
         
 fi
