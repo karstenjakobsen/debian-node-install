@@ -54,27 +54,27 @@ sudo -u lisk wget https://downloads.lisk.io/lisk-node/lisk-node-Linux-x86_64.tar
 sudo -u lisk tar xfv lisk-node-Linux-x86_64.tar.gz
 sudo -u lisk bash lisk.sh start
         
-echo "Installing lisk dapp tools"
-sudo npm install -g lisk-cli
-sudo npm install -g crypto-browserify
-sudo npm install -g browserify-bignum
-        
 read -p "Do you want to create a Dapp now? <y/N> " prompt
 if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
 then
-  echo "Installing Dapp..."
-  sudo -u lisk bash lisk.sh stop
-  sudo -u lisk ssh-keygen -t rsa -b 4096 -C "lisk@tickii.com"
-  cat /home/lisk/.ssh/id_rsa.pub
-  read -n1 -r -p "Copy above key and insert into allowed ssh keys in tickii repo..." key
-  echo "Repo is located here: git@github.com:tickii/some-name-repo.git"
-  sudo -u lisk lisk-cli dapps -a
-  sudo -u lisk bash lisk.sh start
-  echo "Resetting database..."
-  killall node
-  dropdb -U lisk lisk_$LISKNET
-  createdb -U lisk lisk_$LISKNET
-  sudo -u lisk bash lisk.sh restart
+    echo "Installing Dapp..."
+    echo "Installing lisk Dapp tools"
+    sudo npm install -g lisk-cli
+    sudo npm install -g crypto-browserify
+    sudo npm install -g browserify-bignum
+
+    sudo -u lisk bash lisk.sh stop
+    sudo -u lisk ssh-keygen -t rsa -b 4096 -C "lisk@tickii.com"
+    cat /home/lisk/.ssh/id_rsa.pub
+    read -n1 -r -p "Copy above key and insert into allowed ssh keys in tickii repo..." key
+    echo "Repo is located here: git@github.com:tickii/some-name-repo.git"
+    sudo -u lisk lisk-cli dapps -a
+    sudo -u lisk bash lisk.sh start
+    echo "Resetting database..."
+    killall node
+    dropdb -U lisk lisk_$LISKNET
+    createdb -U lisk lisk_$LISKNET
+    sudo -u lisk bash lisk.sh restart
 fi
 
 echo "All done with Lisk..."
