@@ -9,8 +9,10 @@ SSHKEYS[lisk]="ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAgEAhDyHV7vzvS7/MfqsoanrEkZc84mxn
 
 echo "Installing default Debain set..."
 
-apt-get update
-apt-get -y install nodejs npm curl wget tar sudo unzip zip linux-headers-$(uname -r) mc joe dos2unix g++ gcc make tcpdump ngrep elinks git openssl ntp
+echo "Using nodejs v0.12"
+curl -sL https://deb.nodesource.com/setup_0.12 | sudo -E bash -
+
+apt-get -y install nodejs curl wget tar sudo unzip zip linux-headers-$(uname -r) mc joe dos2unix g++ gcc make tcpdump ngrep elinks git openssl ntp
 
 echo "Packages installed"
 
@@ -78,7 +80,7 @@ then
         
         sudo -u lisk bash lisk.sh stop
         sudo -u lisk wget https://downloads.lisk.io/lisk-node/lisk-node-Linux-x86_64.tar.gz
-        tar xfv lisk-node-Linux-x86_64.tar.gz
+        sudo -u lisk tar xfv lisk-node-Linux-x86_64.tar.gz
         sudo -u lisk bash lisk.sh start
         
         echo "Installing lisk dapp tools"
@@ -90,7 +92,9 @@ then
         if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
         then
                 echo "Installing Dapp..."
-        
+                sudo -u lisk bash lisk.sh stop
+                sudo -u lisk lisk-cli dapps -a
+                sudo -u lisk bash lisk.sh start
         fi
         
 fi
