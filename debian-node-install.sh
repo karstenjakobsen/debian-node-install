@@ -46,6 +46,14 @@ then
         chmod 700 /home/lisk/.ssh
         chmod 600 /home/lisk/.ssh/authorized_keys
         
+        locale-gen en_US.UTF-8
+        update-locale LANG=en_US.UTF-8
+        
+        cd /home/lisk
+        wget https://downloads.lisk.io/scripts/installLisk.sh
+        bash installLisk.sh install
+        
+        echo "Done with Lisk installation..."
 fi
 
 echo -n "Updating SSHd configuration..."
@@ -54,5 +62,11 @@ echo "Done"
 
 echo "Restarting SSHd..."
 /etc/init.d/ssh restart
+
+if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
+then
+        echo "Finishing Lisk..."
+        cd lisk-test
+fi
 
 echo "All done, have fun..."
