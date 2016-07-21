@@ -6,7 +6,7 @@ then
     echo "Installing mainnet"
     LISKNET="main"
 else
-        echo "Installing testnet"
+    echo "Installing testnet"
     LISKNET="test"
 fi
 
@@ -44,8 +44,8 @@ cd /home/lisk/lisk-$LISKNET
 export PATH="/home/lisk/lisk-$LISKNET/bin:/home/lisk/lisk-$LISKNET/pgsql/bin:$PATH"
 export LD_LIBRARY_PATH="/home/lisk/lisk-$LISKNET/pgsql/lib:$LD_LIBRARY_PATH"
         
-echo "export PATH=\"/home/lisk/lisk-\$LISKNET/bin:/home/lisk/lisk-\$LISKNET/pgsql/bin:\$PATH\"" >> /home/lisk/.bashrc
-echo "export LD_LIBRARY_PATH=\"/home/lisk/lisk-\$LISKNET/pgsql/lib:\$LD_LIBRARY_PATH\"" >> /home/lisk/.bashrc
+echo "export PATH=\"/home/lisk/lisk-$LISKNET/bin:/home/lisk/lisk-$LISKNET/pgsql/bin:\$PATH\"" >> /home/lisk/.bashrc
+echo "export LD_LIBRARY_PATH=\"/home/lisk/lisk-$LISKNET/pgsql/lib:\$LD_LIBRARY_PATH\"" >> /home/lisk/.bashrc
         
 echo "Updating node binaries..."
         
