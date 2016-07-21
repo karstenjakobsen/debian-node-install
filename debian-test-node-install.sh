@@ -74,6 +74,11 @@ then
         echo "export PATH=\"/home/lisk/lisk-test/bin:/home/lisk/lisk-test/pgsql/bin:$PATH\"" >> /home/lisk/.bashrc
         echo "export LD_LIBRARY_PATH="/home/lisk/lisk-test/pgsql/lib:$LD_LIBRARY_PATH"" >> /home/lisk/.bashrc
         
+        echo "Updating node binaries..."
+        sudo -u lisk bash lisk.sh stop
+        sudo -u lisk wget https://downloads.lisk.io/lisk-node/lisk-node-Linux-x86_64.tar.gz
+        tar xfv lisk-node-Linux-x86_64.tar.gz
+        sudo -u lisk bash lisk.sh start
         
 fi
 
