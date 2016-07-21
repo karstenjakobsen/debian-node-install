@@ -33,9 +33,9 @@ do
         chmod 600 /home/$user/.ssh/authorized_keys
 done
 
-echo "Done"
+echo "Done with users..."
 
-read -p "Do you want to insall Lisk? <y/N>" prompt
+read -p "Do you want to insall Lisk? <y/N> " prompt
 if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
 then
         useradd -G wheel -s /bin/bash -m lisk
@@ -50,8 +50,8 @@ then
         update-locale LANG=en_US.UTF-8
         
         cd /home/lisk
-        wget https://downloads.lisk.io/scripts/installLisk.sh
-        bash installLisk.sh install
+        sudo -u lisk wget https://downloads.lisk.io/scripts/installLisk.sh
+        sudo -u lisk bash installLisk.sh install
         
         echo "Done with Lisk installation..."
 fi
@@ -66,7 +66,15 @@ echo "Restarting SSHd..."
 if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
 then
         echo "Finishing Lisk..."
-        cd lisk-test
+        /home/lisk/lisk-test
+        
+        export PATH="/home/lisk/lisk-test/bin:/home/lisk/lisk-test/pgsql/bin:$PATH"
+        export LD_LIBRARY_PATH="/home/lisk/lisk-test/pgsql/lib:$LD_LIBRARY_PATH"
+        
+        echo "export PATH=\"/home/lisk/lisk-test/bin:/home/lisk/lisk-test/pgsql/bin:$PATH\"" >> /home/lisk/.bashrc
+        echo "export LD_LIBRARY_PATH="/home/lisk/lisk-test/pgsql/lib:$LD_LIBRARY_PATH"" >> /home/lisk/.bashrc
+        
+        
 fi
 
 echo "All done, have fun..."
