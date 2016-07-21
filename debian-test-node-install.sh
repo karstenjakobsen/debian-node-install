@@ -93,6 +93,10 @@ then
         then
                 echo "Installing Dapp..."
                 sudo -u lisk bash lisk.sh stop
+                sudo -u lisk ssh-keygen -t rsa -b 4096 -C "lisk@tickii.com"
+                cat /home/lisk/.ssh/id_rsa.pub
+                read -n1 -r -p "Copy above key and insert into allowed ssh keys in tickii test repo..." key
+                echo "Repo is located here: git@github.com:karstenjakobsen/tickiitest.git"
                 sudo -u lisk lisk-cli dapps -a
                 sudo -u lisk bash lisk.sh start
         fi
