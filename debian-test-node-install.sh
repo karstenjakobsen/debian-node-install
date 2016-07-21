@@ -10,7 +10,7 @@ SSHKEYS[lisk]="ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAgEAhDyHV7vzvS7/MfqsoanrEkZc84mxn
 echo "Installing default Debain set..."
 
 apt-get update
-apt-get -y install nodejs curl wget tar sudo unzip zip linux-headers-$(uname -r) mc joe dos2unix g++ gcc make tcpdump ngrep elinks git openssl ntp
+apt-get -y install nodejs npm curl wget tar sudo unzip zip linux-headers-$(uname -r) mc joe dos2unix g++ gcc make tcpdump ngrep elinks git openssl ntp
 
 echo "Packages installed"
 
@@ -66,7 +66,7 @@ echo "Restarting SSHd..."
 if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
 then
         echo "Finishing Lisk..."
-        /home/lisk/lisk-test
+        cd /home/lisk/lisk-test
         
         export PATH="/home/lisk/lisk-test/bin:/home/lisk/lisk-test/pgsql/bin:$PATH"
         export LD_LIBRARY_PATH="/home/lisk/lisk-test/pgsql/lib:$LD_LIBRARY_PATH"
@@ -75,15 +75,16 @@ then
         echo "export LD_LIBRARY_PATH="/home/lisk/lisk-test/pgsql/lib:$LD_LIBRARY_PATH"" >> /home/lisk/.bashrc
         
         echo "Updating node binaries..."
+        
         sudo -u lisk bash lisk.sh stop
         sudo -u lisk wget https://downloads.lisk.io/lisk-node/lisk-node-Linux-x86_64.tar.gz
         tar xfv lisk-node-Linux-x86_64.tar.gz
         sudo -u lisk bash lisk.sh start
         
         echo "Installing lisk dapp tools"
-        sudo npm install -g lisk-cli
-        sudo npm install -g crypto-browserify
-        sudo npm install -g browserify-bignum
+        npm install -g lisk-cli
+        npm install -g crypto-browserify
+        npm install -g browserify-bignum
         
         read -p "Do you want to create a Dapp now? <y/N> " prompt
         if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
