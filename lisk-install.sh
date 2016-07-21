@@ -1,4 +1,14 @@
 #!/bin/bash
+declare LISKNET
+
+if [[ "$@" == "main" ]]
+then
+    echo "Installing mainnet"
+    LISKNET="main"
+else
+        echo "Installing testnet"
+    LISKNET="test"
+fi
 
 declare -A SSHKEYS
 SSHKEYS[lisk]="ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAgEAhDyHV7vzvS7/MfqsoanrEkZc84mxnHisz187ri4xFQ6iXuW2tZscf8gWizh6Mw4DZ8caZbEoZBKhtXH3Yhj2ZjF1T0jHjFzsgE3603YWVkIS5Z/pAih2wm0e+7X5HYK1x60nuMyPXtGv1aJM6aAvhkNFfA1Hn1mbqZF3YDyBEy0VsR8IweIAMF6ESA3g4Cvut0lVnCxrDgbyTG3RMHKoyF8ozK/lQfbDlKVi5bsMaq6/pi6iPzCqE9LQoUeaeXH/LPweZUjgKIh9GgBw0rsRTezIUHvwGh+97hoaZZaSaYuRw551Afx54juH0exj5FWwoGOg/9fNIkxcLzrcxeDWCbY1Y8Qr5+tb6dpfXgDBuNUvka0uYRF70CktCVl3ZVCG06s1rwaXbdxDdZKt1KrfzZvhZ2LGDKdLmxxqGgDWTSN13xoJab35bAXLWdi7qeTnPAoNlxbyajVWX2YEQxqpxHMdr0cdfGzY2UmVmPI91cZ0NDnC2CjQkOd3ZXE4O+PpdWX/rA/uj+fsA1faaPjXF29okbBzwBjnrKEGEiOg56is+BEFNVF2BgapPoZwIbrtW49TbDnhTzq5UTNWEK1WpqS5xKhro3nM8QVVCqOSmPajLMl3MJQ8f7esdYfctc6qxmz/kLEmrJBCvhmSseqgvjgJ7HCYwU5waSeKv1AGmXk= lisk@tickii.com"
@@ -29,13 +39,13 @@ cd /home/lisk
 sudo -u lisk wget https://downloads.lisk.io/scripts/installLisk.sh
 sudo -u lisk bash installLisk.sh install
         
-cd /home/lisk/lisk-test
+cd /home/lisk/lisk-$LISKNET
 
-export PATH="/home/lisk/lisk-test/bin:/home/lisk/lisk-test/pgsql/bin:$PATH"
-export LD_LIBRARY_PATH="/home/lisk/lisk-test/pgsql/lib:$LD_LIBRARY_PATH"
+export PATH="/home/lisk/lisk-$LISKNET/bin:/home/lisk/lisk-$LISKNET/pgsql/bin:$PATH"
+export LD_LIBRARY_PATH="/home/lisk/lisk-$LISKNET/pgsql/lib:$LD_LIBRARY_PATH"
         
-echo "export PATH=\"/home/lisk/lisk-test/bin:/home/lisk/lisk-test/pgsql/bin:\$PATH\"" >> /home/lisk/.bashrc
-echo "export LD_LIBRARY_PATH=\"/home/lisk/lisk-test/pgsql/lib:\$LD_LIBRARY_PATH\"" >> /home/lisk/.bashrc
+echo "export PATH=\"/home/lisk/lisk-\$LISKNET/bin:/home/lisk/lisk-\$LISKNET/pgsql/bin:\$PATH\"" >> /home/lisk/.bashrc
+echo "export LD_LIBRARY_PATH=\"/home/lisk/lisk-\$LISKNET/pgsql/lib:\$LD_LIBRARY_PATH\"" >> /home/lisk/.bashrc
         
 echo "Updating node binaries..."
         
@@ -56,14 +66,14 @@ then
   sudo -u lisk bash lisk.sh stop
   sudo -u lisk ssh-keygen -t rsa -b 4096 -C "lisk@tickii.com"
   cat /home/lisk/.ssh/id_rsa.pub
-  read -n1 -r -p "Copy above key and insert into allowed ssh keys in tickii test repo..." key
-  echo "Repo is located here: git@github.com:karstenjakobsen/tickiitest.git"
+  read -n1 -r -p "Copy above key and insert into allowed ssh keys in tickii repo..." key
+  echo "Repo is located here: git@github.com:tickii/some-name-repo.git"
   sudo -u lisk lisk-cli dapps -a
   sudo -u lisk bash lisk.sh start
   echo "Resetting database..."
   killall node
-  dropdb -U lisk lisk_test
-  createdb -U lisk lisk_test
+  dropdb -U lisk lisk_$LISKNET
+  createdb -U lisk lisk_$LISKNET
   sudo -u lisk bash lisk.sh restart
 fi
 
