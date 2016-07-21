@@ -67,4 +67,4 @@ then
   sudo -u lisk bash lisk.sh restart
 fi
 
-echo "All done, have fun..."
+echo "All done with Lisk..."
