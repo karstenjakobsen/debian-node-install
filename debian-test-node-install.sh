@@ -68,13 +68,14 @@ echo "Restarting SSHd..."
 if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
 then
         echo "Finishing Lisk..."
+        sudo su - lisk
         cd /home/lisk/lisk-test
         
-        sudo -u lisk export PATH="/home/lisk/lisk-test/bin:/home/lisk/lisk-test/pgsql/bin:$PATH"
-        sudo -u lisk export LD_LIBRARY_PATH="/home/lisk/lisk-test/pgsql/lib:$LD_LIBRARY_PATH"
+        export PATH="/home/lisk/lisk-test/bin:/home/lisk/lisk-test/pgsql/bin:$PATH"
+        export LD_LIBRARY_PATH="/home/lisk/lisk-test/pgsql/lib:$LD_LIBRARY_PATH"
         
         echo "export PATH=\"/home/lisk/lisk-test/bin:/home/lisk/lisk-test/pgsql/bin:\$PATH\"" >> /home/lisk/.bashrc
-        echo "export LD_LIBRARY_PATH="/home/lisk/lisk-test/pgsql/lib:\$LD_LIBRARY_PATH"" >> /home/lisk/.bashrc
+        echo "export LD_LIBRARY_PATH=\"/home/lisk/lisk-test/pgsql/lib:\$LD_LIBRARY_PATH\"" >> /home/lisk/.bashrc
         
         echo "Updating node binaries..."
         
@@ -84,21 +85,21 @@ then
         sudo -u lisk bash lisk.sh start
         
         echo "Installing lisk dapp tools"
-        npm install -g lisk-cli
-        npm install -g crypto-browserify
-        npm install -g browserify-bignum
+        sudo npm install -g lisk-cli
+        sudo npm install -g crypto-browserify
+        sudo npm install -g browserify-bignum
         
         read -p "Do you want to create a Dapp now? <y/N> " prompt
         if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
         then
                 echo "Installing Dapp..."
-                sudo -u lisk bash lisk.sh stop
-                sudo -u lisk ssh-keygen -t rsa -b 4096 -C "lisk@tickii.com"
+                bash lisk.sh stop
+                ssh-keygen -t rsa -b 4096 -C "lisk@tickii.com"
                 cat /home/lisk/.ssh/id_rsa.pub
                 read -n1 -r -p "Copy above key and insert into allowed ssh keys in tickii test repo..." key
                 echo "Repo is located here: git@github.com:karstenjakobsen/tickiitest.git"
-                sudo -u lisk lisk-cli dapps -a
-                sudo -u lisk bash lisk.sh start
+                lisk-cli dapps -a
+                bash lisk.sh start
         fi
         
 fi
