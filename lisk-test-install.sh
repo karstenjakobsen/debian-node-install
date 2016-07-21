@@ -15,10 +15,10 @@ echo "Packages installed"
 echo -n "Adding wheel group and permissions..."
 
 useradd -G wheel -s /bin/bash -m lisk
+mkdir /home/lisk
 mkdir /home/lisk/.ssh
 echo ${SSHKEYS[lisk]} > /home/lisk/.ssh/authorized_keys
-chown lisk:lisk /home/lisk/.ssh
-chown lisk:lisk /home/lisk/.ssh/authorized_keys
+chown -R lisk:lisk /home/lisk
 chmod 700 /home/lisk/.ssh
 chmod 600 /home/lisk/.ssh/authorized_keys
         
@@ -30,10 +30,7 @@ sudo -u lisk wget https://downloads.lisk.io/scripts/installLisk.sh
 sudo -u lisk bash installLisk.sh install
         
 cd /home/lisk/lisk-test
-        
-sudo -u lisk export PATH="/home/lisk/lisk-test/bin:/home/lisk/lisk-test/pgsql/bin:$PATH"
-sudo -u lisk export LD_LIBRARY_PATH="/home/lisk/lisk-test/pgsql/lib:$LD_LIBRARY_PATH"
-        
+
 export PATH="/home/lisk/lisk-test/bin:/home/lisk/lisk-test/pgsql/bin:$PATH"
 export LD_LIBRARY_PATH="/home/lisk/lisk-test/pgsql/lib:$LD_LIBRARY_PATH"
         
