@@ -73,6 +73,9 @@ then
         sudo -u lisk export PATH="/home/lisk/lisk-test/bin:/home/lisk/lisk-test/pgsql/bin:$PATH"
         sudo -u lisk export LD_LIBRARY_PATH="/home/lisk/lisk-test/pgsql/lib:$LD_LIBRARY_PATH"
         
+        export PATH="/home/lisk/lisk-test/bin:/home/lisk/lisk-test/pgsql/bin:$PATH"
+        export LD_LIBRARY_PATH="/home/lisk/lisk-test/pgsql/lib:$LD_LIBRARY_PATH"
+        
         echo "export PATH=\"/home/lisk/lisk-test/bin:/home/lisk/lisk-test/pgsql/bin:\$PATH\"" >> /home/lisk/.bashrc
         echo "export LD_LIBRARY_PATH=\"/home/lisk/lisk-test/pgsql/lib:\$LD_LIBRARY_PATH\"" >> /home/lisk/.bashrc
         
@@ -99,6 +102,11 @@ then
                 echo "Repo is located here: git@github.com:karstenjakobsen/tickiitest.git"
                 sudo -u lisk lisk-cli dapps -a
                 sudo -u lisk bash lisk.sh start
+                echo "Resetting database..."
+                killall node
+                dropdb -U lisk lisk_test
+                createdb -U lisk lisk_test
+                sudo -u lisk bash lisk.sh restart && tail -f /home/lisk/lisk-test/app.log
         fi
         
 fi
