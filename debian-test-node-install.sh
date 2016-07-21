@@ -70,11 +70,11 @@ then
         echo "Finishing Lisk..."
         cd /home/lisk/lisk-test
         
-        export PATH="/home/lisk/lisk-test/bin:/home/lisk/lisk-test/pgsql/bin:$PATH"
-        export LD_LIBRARY_PATH="/home/lisk/lisk-test/pgsql/lib:$LD_LIBRARY_PATH"
+        sudo -u lisk export PATH="/home/lisk/lisk-test/bin:/home/lisk/lisk-test/pgsql/bin:$PATH"
+        sudo -u lisk export LD_LIBRARY_PATH="/home/lisk/lisk-test/pgsql/lib:$LD_LIBRARY_PATH"
         
-        echo "export PATH=\"/home/lisk/lisk-test/bin:/home/lisk/lisk-test/pgsql/bin:$PATH\"" >> /home/lisk/.bashrc
-        echo "export LD_LIBRARY_PATH="/home/lisk/lisk-test/pgsql/lib:$LD_LIBRARY_PATH"" >> /home/lisk/.bashrc
+        echo "export PATH=\"/home/lisk/lisk-test/bin:/home/lisk/lisk-test/pgsql/bin:\$PATH\"" >> /home/lisk/.bashrc
+        echo "export LD_LIBRARY_PATH="/home/lisk/lisk-test/pgsql/lib:\$LD_LIBRARY_PATH"" >> /home/lisk/.bashrc
         
         echo "Updating node binaries..."
         
