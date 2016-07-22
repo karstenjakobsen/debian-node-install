@@ -94,9 +94,9 @@ then
         then
             echo "Installing Dapp..."
             echo "Installing lisk Dapp tools"
-            sudo npm install -g lisk-cli
-            sudo npm install -g crypto-browserify
-            sudo npm install -g browserify-bignum
+            npm install -g lisk-cli
+            npm install -g crypto-browserify
+            npm install -g browserify-bignum
         
             sudo -u lisk bash lisk.sh stop
             sudo -u lisk ssh-keygen -t rsa -b 4096 -C "lisk@tickii.com"
