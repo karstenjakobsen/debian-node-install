@@ -223,12 +223,6 @@ then
 	lisk
 fi
 
-read -p "Do you want to run security measures? <y/N> " prompt
-if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
-then
-	security
-fi
-
 read -p "Do you want to install ruby? <y/N> " prompt
 if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
 then
