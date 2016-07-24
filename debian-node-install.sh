@@ -1,15 +1,6 @@
 #!/bin/bash
 declare LISKNET
 
-if [[ "$@" == "main" ]]
-then
-    echo "Installing mainnet"
-    LISKNET="main"
-else
-    echo "Installing testnet"
-    LISKNET="test"
-fi
-
 USERLIST="kj jb"
 TRUSTED_IPV4="89.239.217.12"
 
@@ -28,6 +19,10 @@ function basic_packages {
 	echo "Setting locale"
 	locale-gen en_US.UTF-8
 	update-locale LANG=en_US.UTF-8
+	export LC_ALL=en_US.UTF-8
+	export LANG=en_US.UTF-8
+	export LANGUAGE=en_US.UTF-8
+
 }
 
 function create_users {
@@ -159,9 +154,19 @@ basic_packages
 create_users
 security
 
-read -p "Do you want to insall Lisk? <y/N> " prompt
+read -p "Do you want to install Lisk? <y/N> " prompt
 if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
 then
+	read -p "Install Lisk test or mainnet? <test/main> " prompt
+	if [[ $prompt == "main" || $prompt == "Main" || $prompt == "MAIN" || $prompt == "m" ]]
+	then
+	    echo "Installing mainnet"
+	    LISKNET="main"
+	else
+	    echo "Installing testnet"
+	    LISKNET="test"
+	fi
+	
 	lisk
 fi
 
