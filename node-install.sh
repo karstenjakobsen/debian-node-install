@@ -224,4 +224,31 @@ then
 	ruby
 fi
 
+function dev_user {
+	
+	read -p "Name of dev user? " prompt
+	if [[ $prompt == "" || $prompt == " " ]]
+	then
+		echo "Wrong user!"
+		exit 2
+	else
+		DEVNAME = $prompt;
+	fi
+	
+	read -p "Email of dev user? " prompt
+	if [[ $prompt == "" || $prompt == " " ]]
+	then
+		echo "Wrong email!"
+		exit 2
+	else
+		DEVEMAIL = $prompt;
+	fi
+
+	git config --global color.ui true
+	git config --global user.name $DEVNAME
+	git config --global user.email $DEVEMAIL
+	ssh-keygen -t rsa -b 4096 -C DEVEMAIL
+
+}
+
 echo "All done, have fun :)"
