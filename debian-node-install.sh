@@ -21,10 +21,7 @@ SSHKEYS[lisk]="ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAgEAhDyHV7vzvS7/MfqsoanrEkZc84mxn
 
 echo "Installing lisk prerequisites and default Debain set..."
 
-echo "Using nodejs v0.12"
-curl -sL https://deb.nodesource.com/setup_0.12 | sudo -E bash -
-
-apt-get -y install ufw nodejs curl wget tar unzip zip sudo linux-headers-$(uname -r) mc joe dos2unix g++ gcc make tcpdump ngrep elinks git openssl ntp wget curl
+apt-get -y install ufw curl wget tar unzip zip sudo linux-headers-$(uname -r) mc joe dos2unix g++ gcc make tcpdump ngrep elinks git openssl ntp wget curl
 
 echo "Packages installed"
 
@@ -65,6 +62,11 @@ sudo ufw allow 222/tcp
 	read -p "Do you want to insall Lisk? <y/N> " prompt
 	if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
 	then
+	
+	echo "Using nodejs v0.12"
+	curl -sL https://deb.nodesource.com/setup_0.12 | sudo -E bash -
+
+	apt-get install -y nodejs
 	
 	echo -n "Adding wheel group and permissions for lisk..."
 
@@ -124,8 +126,8 @@ sudo ufw allow 222/tcp
 		fi
 		
 		if [[ $LISKNET == "main" ]]
-			sudo ufw allow 8000/tcp
 		then
+			sudo ufw allow 8000/tcp
 		else
 			sudo ufw allow 7000/tcp
 		fi
