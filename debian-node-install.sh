@@ -137,8 +137,8 @@ echo "Setting up trusted IPs in firewall.."
 
 for ipv4address in $TRUSTED_IPV4;
 do
-        echo -n "$user..."
-		sudo ufw allow from $ipv4address
+	echo "Allowing from $ipv4address..."
+	sudo ufw allow from $ipv4address
        
 done
 
