@@ -36,6 +36,17 @@ function ruby {
 	rbenv install $RUBYVERSION
 	rbenv global $RUBYVERSION
 	ruby -v
+	
+	gem install bundler
+	
+	curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+	sudo apt-get install -y nodejs
+	
+	gem install rails -v 4.2.6
+	rbenv rehash
+	rails -v
+	
+	read "Ruby and Rails installed.. press any key to continue"
 }
 
 function basic_packages {
@@ -223,32 +234,5 @@ if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]
 then
 	ruby
 fi
-
-function dev_user {
-	
-	read -p "Name of dev user? " prompt
-	if [[ $prompt == "" || $prompt == " " ]]
-	then
-		echo "Wrong user!"
-		exit 2
-	else
-		DEVNAME = $prompt;
-	fi
-	
-	read -p "Email of dev user? " prompt
-	if [[ $prompt == "" || $prompt == " " ]]
-	then
-		echo "Wrong email!"
-		exit 2
-	else
-		DEVEMAIL = $prompt;
-	fi
-
-	git config --global color.ui true
-	git config --global user.name $DEVNAME
-	git config --global user.email $DEVEMAIL
-	ssh-keygen -t rsa -b 4096 -C DEVEMAIL
-
-}
 
 echo "All done, have fun :)"
