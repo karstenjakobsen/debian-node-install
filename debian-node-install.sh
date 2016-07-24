@@ -78,6 +78,16 @@ function create_users {
 }
 	
 function lisk {
+
+	read -p "Install Lisk test or mainnet? <test/main> " prompt
+	if [[ $prompt == "main" || $prompt == "Main" || $prompt == "MAIN" || $prompt == "m" ]]
+	then
+	    echo "Installing mainnet"
+	    LISKNET="main"
+	else
+	    echo "Installing testnet"
+	    LISKNET="test"
+	fi
 	
 	echo "Using nodejs v0.12"
 	curl -sL https://deb.nodesource.com/setup_0.12 | sudo -E bash -
@@ -199,16 +209,6 @@ fi
 read -p "Do you want to install Lisk? <y/N> " prompt
 if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
 then
-	read -p "Install Lisk test or mainnet? <test/main> " prompt
-	if [[ $prompt == "main" || $prompt == "Main" || $prompt == "MAIN" || $prompt == "m" ]]
-	then
-	    echo "Installing mainnet"
-	    LISKNET="main"
-	else
-	    echo "Installing testnet"
-	    LISKNET="test"
-	fi
-	
 	lisk
 fi
 
