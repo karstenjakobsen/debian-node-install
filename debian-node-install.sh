@@ -1,4 +1,35 @@
 #!/bin/bash
+function basic_packages {
+	echo "Installing lisk prerequisites and default Debain set..."
+	apt-get -y install ufw curl wget tar unzip zip sudo linux-headers-$(uname -r) mc joe dos2unix g++ gcc make tcpdump ngrep elinks git openssl ntp wget curl
+	echo "Packages installed"
+}
+
+function create_users {
+
+	echo -n "Adding wheel group and permissions..."
+	
+	addgroup wheel
+	bash -c 'echo "%wheel ALL = (ALL) NOPASSWD: ALL" | (EDITOR="tee -a" visudo)'
+	bash -c 'echo "%sudo ALL = (ALL) NOPASSWD: ALL" | (EDITOR="tee -a" visudo)'
+	
+	echo -n "Adding users..."
+	
+	for user in $USERLIST;
+	do
+	        echo -n "$user..."
+	        useradd -G wheel -s /bin/bash -m $user
+	        mkdir /home/$user/.ssh
+	        echo ${SSHKEYS[$user]} > /home/$user/.ssh/authorized_keys
+	        chown $user:$user /home/$user/.ssh
+	        chown $user:$user /home/$user/.ssh/authorized_keys
+	        chmod 700 /home/$user/.ssh
+	        chmod 600 /home/$user/.ssh/authorized_keys
+	done
+	
+	echo "Done with users..."
+}
+
 declare LISKNET
 
 if [[ "$@" == "main" ]]
@@ -19,32 +50,8 @@ SSHKEYS[kj]="ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAgEAxPXpcIzDwNb2PaDfGaq8n8j9C6Uu4Gh
 SSHKEYS[jb]="ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAgEAhDyHV7vzvS7/MfqsoanrEkZc84mxnHisz187ri4xFQ6iXuW2tZscf8gWizh6Mw4DZ8caZbEoZBKhtXH3Yhj2ZjF1T0jHjFzsgE3603YWVkIS5Z/pAih2wm0e+7X5HYK1x60nuMyPXtGv1aJM6aAvhkNFfA1Hn1mbqZF3YDyBEy0VsR8IweIAMF6ESA3g4Cvut0lVnCxrDgbyTG3RMHKoyF8ozK/lQfbDlKVi5bsMaq6/pi6iPzCqE9LQoUeaeXH/LPweZUjgKIh9GgBw0rsRTezIUHvwGh+97hoaZZaSaYuRw551Afx54juH0exj5FWwoGOg/9fNIkxcLzrcxeDWCbY1Y8Qr5+tb6dpfXgDBuNUvka0uYRF70CktCVl3ZVCG06s1rwaXbdxDdZKt1KrfzZvhZ2LGDKdLmxxqGgDWTSN13xoJab35bAXLWdi7qeTnPAoNlxbyajVWX2YEQxqpxHMdr0cdfGzY2UmVmPI91cZ0NDnC2CjQkOd3ZXE4O+PpdWX/rA/uj+fsA1faaPjXF29okbBzwBjnrKEGEiOg56is+BEFNVF2BgapPoZwIbrtW49TbDnhTzq5UTNWEK1WpqS5xKhro3nM8QVVCqOSmPajLMl3MJQ8f7esdYfctc6qxmz/kLEmrJBCvhmSseqgvjgJ7HCYwU5waSeKv1AGmXk= jb@tickii.com"
 SSHKEYS[lisk]="ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAgEAhDyHV7vzvS7/MfqsoanrEkZc84mxnHisz187ri4xFQ6iXuW2tZscf8gWizh6Mw4DZ8caZbEoZBKhtXH3Yhj2ZjF1T0jHjFzsgE3603YWVkIS5Z/pAih2wm0e+7X5HYK1x60nuMyPXtGv1aJM6aAvhkNFfA1Hn1mbqZF3YDyBEy0VsR8IweIAMF6ESA3g4Cvut0lVnCxrDgbyTG3RMHKoyF8ozK/lQfbDlKVi5bsMaq6/pi6iPzCqE9LQoUeaeXH/LPweZUjgKIh9GgBw0rsRTezIUHvwGh+97hoaZZaSaYuRw551Afx54juH0exj5FWwoGOg/9fNIkxcLzrcxeDWCbY1Y8Qr5+tb6dpfXgDBuNUvka0uYRF70CktCVl3ZVCG06s1rwaXbdxDdZKt1KrfzZvhZ2LGDKdLmxxqGgDWTSN13xoJab35bAXLWdi7qeTnPAoNlxbyajVWX2YEQxqpxHMdr0cdfGzY2UmVmPI91cZ0NDnC2CjQkOd3ZXE4O+PpdWX/rA/uj+fsA1faaPjXF29okbBzwBjnrKEGEiOg56is+BEFNVF2BgapPoZwIbrtW49TbDnhTzq5UTNWEK1WpqS5xKhro3nM8QVVCqOSmPajLMl3MJQ8f7esdYfctc6qxmz/kLEmrJBCvhmSseqgvjgJ7HCYwU5waSeKv1AGmXk= lisk@tickii.com"
 
-echo "Installing lisk prerequisites and default Debain set..."
-
-apt-get -y install ufw curl wget tar unzip zip sudo linux-headers-$(uname -r) mc joe dos2unix g++ gcc make tcpdump ngrep elinks git openssl ntp wget curl
-
-echo "Packages installed"
-
-echo -n "Adding wheel group and permissions..."
-
-addgroup wheel
-bash -c 'echo "%wheel ALL = (ALL) NOPASSWD: ALL" | (EDITOR="tee -a" visudo)'
-
-echo -n "Adding users..."
-
-for user in $USERLIST;
-do
-        echo -n "$user..."
-        useradd -G wheel -s /bin/bash -m $user
-        mkdir /home/$user/.ssh
-        echo ${SSHKEYS[$user]} > /home/$user/.ssh/authorized_keys
-        chown $user:$user /home/$user/.ssh
-        chown $user:$user /home/$user/.ssh/authorized_keys
-        chmod 700 /home/$user/.ssh
-        chmod 600 /home/$user/.ssh/authorized_keys
-done
-
-echo "Done with users..."
+basic_packages
+create_users
 
 echo -n "Updating SSHd configuration..."
 sed -i.old -e "s/^Port 22$/Port 222/" -e "s/^PermitRootLogin without-password/PermitRootLogin no/" -e "s/^PermitRootLogin yes/PermitRootLogin no/"  -e "s/^#PasswordAuthentication yes/PasswordAuthentication no/" /etc/ssh/sshd_config
